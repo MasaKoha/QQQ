@@ -46,10 +46,20 @@ namespace QQQ.Core
         {
             string line = "";
             var path = PersistentDataPath + className + ".json";
-            using (var streamReader = new StreamReader(path))
+            StreamReader sr = null;
+
+            try
             {
-                line = streamReader.ReadLine();
+                sr = new StreamReader(path);
             }
+            catch (Exception)
+            {
+                Debug.Log($"{className}.json not found.");
+                return "";
+            }
+
+            line = sr.ReadLine();
+            sr.Close();
             var decodeParam = _decoder.Decode(line);
             return decodeParam;
         }
