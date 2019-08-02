@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using System.Text;
 using UnityEngine;
 
 namespace QQQ.Core
@@ -46,6 +45,12 @@ namespace QQQ.Core
         {
             string line = "";
             var path = PersistentDataPath + className + ".json";
+
+            if (!System.IO.File.Exists(path))
+            {
+                return "";
+            }
+
             StreamReader sr = null;
 
             try
@@ -55,6 +60,7 @@ namespace QQQ.Core
             catch (Exception)
             {
                 Debug.Log($"{className}.json not found.");
+                sr.Close();
                 return "";
             }
 
